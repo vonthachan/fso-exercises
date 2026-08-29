@@ -28,9 +28,10 @@ const Part = ({ part, exercises }) => {
 };
 
 const Total = ({ course }) => {
-  let total = 0;
-  course.parts.forEach((part) => (total += part.exercises));
-  console.log("Total function: ", total);
+  // let total = 0;
+  // course.parts.forEach((part) => (total += part.exercises));
+  // console.log("Total function: ", total);
+  const total = course.parts.reduce((sum, part) => sum + part.exercises, 0);
   return (
     <div>
       Total exercises:
