@@ -1,24 +1,27 @@
 import { useState } from "react";
-import './App.css'
+import "./App.css";
 const Header = ({ title }) => <h2>{title}</h2>;
 
 const App = () => {
   // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+  const total = good + neutral + bad;
+  const average = total === 0 ? 0 : (good - bad) / total;
+  const positive = total === 0 ? 0 : (good / total) * 100;
 
   const handleGoodClick = () => {
-    console.log('Good clicked');
-    setGood(good+1)
-  }
+    console.log("Good clicked");
+    setGood(good + 1);
+  };
   const handleNeutralClick = () => {
     console.log("Neutral clicked");
-    setNeutral(neutral+1)
+    setNeutral(neutral + 1);
   };
   const handleBadClick = () => {
     console.log("Bad clicked");
-    setBad(bad+1)
+    setBad(bad + 1);
   };
 
   return (
@@ -34,10 +37,12 @@ const App = () => {
         <p>good {good}</p>
         <p>neutral {neutral}</p>
         <p>bad {bad}</p>
+        <p>all {total}</p>
+        <p>average {average}</p>
+        <p>positive {positive}%</p>
       </div>
     </div>
   );
-}
-
+};
 
 export default App;
