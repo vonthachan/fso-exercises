@@ -24,10 +24,13 @@ const Statistics = (props) => {
 
 const StatisticLine = ({ text, value, unit }) => {
   return (
-    <p>
-      {text} {value}
-      {unit}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>
+        {value}
+        {unit}
+      </td>
+    </tr>
   );
 };
 const Button = ({ text, handleClick }) => (
