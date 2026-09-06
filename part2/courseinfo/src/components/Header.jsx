@@ -1,2 +1,5 @@
-const Header = ({ title }) => <h1>{title}</h1>;
+const Header = ({ course }) => {
+    console.log('Header component: ' ,course.name)
+  return <h1>{course.name}</h1>;
+};
 export default Header;
