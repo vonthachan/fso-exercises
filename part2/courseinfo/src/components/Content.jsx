@@ -10,7 +10,7 @@ const Content = ({ parts }) => {
           <Part name={part.name} exercises={part.exercises} />
         </li>
       ))}
-      <li>total of {total} exericises</li>
+      <li>total of {total} exercises</li>
     </div>
   );
 };
