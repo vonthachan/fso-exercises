@@ -1,5 +1,8 @@
 import Part from "./Part";
 const Content = ({ parts }) => {
+  const total = parts.reduce((sum, part) => {
+    return sum + part.exercises;
+  }, 0);
   return (
     <div>
       {parts.map((part) => (
@@ -7,6 +10,7 @@ const Content = ({ parts }) => {
           <Part name={part.name} exercises={part.exercises} />
         </li>
       ))}
+      <li>total of {total} exericises</li>
     </div>
   );
 };
