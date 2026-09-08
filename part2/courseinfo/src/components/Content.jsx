@@ -1,6 +1,14 @@
-const Content = (course) => {
-  // const parts = course.map(part => <p>{part.name}</p>)
-  // <Part name = {course.name} exercise = {course.exercises}/>
-  return <p>CONTENT</p>;
+import Part from "./Part";
+const Content = ({ parts }) => {
+  return (
+    <div>
+      {parts.map((part) => (
+        <li key={part.id}>
+          <Part name={part.name} exercises={part.exercises} />
+        </li>
+      ))}
+    </div>
+  );
 };
+
 export default Content;
