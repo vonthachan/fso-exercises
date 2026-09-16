@@ -7,12 +7,16 @@ const App = () => {
     { name: "Arto Hellas" },
     { name: "Hello" },
   ]);
-  //The text of the input
+  //The text of the input (controlling form input element)
   const [newName, setNewName] = useState("");
 
   //Handles adding the name to persons
-  const addPerson = () => {
-    console.log({ newName }, " add person");
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (persons.some((person) => person.name === newName)) return;
+    setPersons(persons.concat({ name: newName }));
+    setNewName("");
   };
 
   //sets new name as the input whenever it is changed
@@ -24,7 +28,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
+      <form onSubmit={handleSubmit}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
         </div>
@@ -33,8 +37,13 @@ const App = () => {
         </div>
         <div>{newName}</div>
         <h2>Numbers</h2>
-        <ul>{persons.map((person) => person.name)}</ul>
-        <div>{persons[0].name}</div>
+        <ul style={{ margin: 0, padding: 0 }}>
+          {persons.map((person) => (
+            <li style={{ listStyle: "none", margin: 0, paddingLeft: 0 }}>
+              <Person key={person.name} name={person.name} />
+            </li>
+          ))}
+        </ul>
       </form>
       ...
     </div>
