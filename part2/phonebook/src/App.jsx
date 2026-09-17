@@ -1,11 +1,9 @@
 import { useState } from "react";
+import Person from "./components/Person";
+
 //Goal add names to phonebook and display
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas" },
-    { name: "asdasd" },
-    { name: "ruby" },
-  ]);
+  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
 
   const handleNameChange = (event) => {
@@ -15,7 +13,11 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
+    if (newName === "") return;
     console.log("add button clicked");
+    setPersons((prevPersons) => prevPersons.concat({ name: newName }));
+    setNewName("");
+    console.log(persons);
   };
 
   return (
@@ -30,9 +32,9 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <ul>
+      <ul style={{ listStyle: "none", padding: 0 }}>
         {persons.map((person) => (
-          <li>{person.name}</li>
+          <Person key={person.name} name={person.name} />
         ))}
       </ul>
       ...
