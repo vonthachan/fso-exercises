@@ -15,8 +15,13 @@ const App = () => {
     event.preventDefault();
     if (newName === "") return;
     console.log("add button clicked");
-    setPersons((prevPersons) => prevPersons.concat({ name: newName }));
-    setNewName("");
+    const nameExist = persons.some((person) => person.name === newName);
+    if (nameExist) {
+      alert(`${newName} already exists in the phonebook`);
+    } else {
+      setPersons((prevPersons) => prevPersons.concat({ name: newName }));
+      setNewName("");
+    }
     console.log(persons);
   };
 
