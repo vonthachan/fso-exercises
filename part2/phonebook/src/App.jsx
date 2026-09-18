@@ -29,12 +29,17 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
+        <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+          <div>
+            name: <input value={newName} onChange={handleNameChange} />
+          </div>
+          <div>
+            number: <input />
+          </div>
+          <div>
+            <button type="submit">add</button>
+          </div>
+        </ul>
       </form>
       <h2>Numbers</h2>
       <ul style={{ listStyle: "none", padding: 0 }}>
