@@ -1,4 +1,8 @@
-const Person = ({ name, number }) => (
-  <li style={{ listStyle: "none", padding: 0 }}>{name} {number}</li>
-);
+const Person = ({person}) => {
+    return (
+      <li>
+        {person.name} {person.number}{" "}
+      </li>
+    );
+}
 export default Person;
