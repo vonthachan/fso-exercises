@@ -16,48 +16,44 @@ const App = () => {
 
     //Retrieve data from server using axios
     axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("fulfilled");
       setPersons(response.data);
     });
-  });
-  console.log("render", persons.length, "persons");
+  }, []);
 
   //Name Stuff
   const handleNameChange = (event) => {
-    console.log("name: " + event.target.value);
     setNewName(event.target.value);
   };
 
   const addPerson = (event) => {
     event.preventDefault();
+    const newPerson = { name: newName, number: newNumber };
+
     if (newName === "") {
       alert("Name required");
       return;
     }
-
-    console.log("add button clicked");
     const nameExist = persons.some((person) => person.name === newName);
     if (nameExist) {
       alert(`${newName} already exists in the phonebook`);
     } else if (newNumber === "") {
       alert("Number required");
     } else {
-      setPersons((prevPersons) =>
-        prevPersons.concat({
-          id: crypto.randomUUID(),
-          name: newName,
-          number: newNumber,
-        }),
-      );
-      setNewName("");
-      setNewNumber("");
+      axios
+        .post("http://localhost:3001/persons", newPerson)
+
+        //response is the data the server returns(does whatever to newPerson and returns it with a generated id)
+        .then((response) => {
+          setPersons((prevPersons) => prevPersons.concat(response.data));
+          setNewName("");
+          setNewNumber("");
+          console.log(response.data);
+        });
     }
-    console.log(persons);
   };
 
   //Number Stuff
   const handleNumberChange = (event) => {
-    console.log("number: " + event.target.value);
     setNewNumber(event.target.value);
   };
 
@@ -73,7 +69,6 @@ const App = () => {
 
   //Sets filter text
   const handleFilter = (event) => {
-    console.log("Filter: " + event.target.value);
     // console.log("Filtered persons: " + filteredPersons)
     setNewFilter(event.target.value);
   };
