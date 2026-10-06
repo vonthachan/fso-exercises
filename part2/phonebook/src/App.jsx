@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import axios from "axios";
+import personService from "./services/persons";
 
 //Goal add names to phonebook and display
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
     console.log("effect");
 
     //Retrieve data from server using axios
-    axios.get("http://localhost:3001/persons").then((response) => {
+    personService.getAll().then((response) => {
       setPersons(response.data);
     });
   }, []);
@@ -39,9 +39,8 @@ const App = () => {
     } else if (newNumber === "") {
       alert("Number required");
     } else {
-      axios
-        .post("http://localhost:3001/persons", newPerson)
-
+      personService
+        .create(newPerson)
         //response is the data the server returns(does whatever to newPerson and returns it with a generated id)
         .then((response) => {
           setPersons((prevPersons) => prevPersons.concat(response.data));
