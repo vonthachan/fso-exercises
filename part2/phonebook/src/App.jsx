@@ -27,7 +27,10 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    const newPerson = { name: newName, number: newNumber };
+    const newPerson = {
+      name: newName,
+      number: newNumber,
+    };
 
     if (newName === "") {
       alert("Name required");
@@ -72,6 +75,16 @@ const App = () => {
     setNewFilter(event.target.value);
   };
 
+  const handleDelete = (id) => {
+    const confirmDelete = window.confirm("Do you want to delete?");
+    console.log(id);
+    if (confirmDelete) {
+      personService.remove(id).then(() => setPersons(previousPersons))
+    } else {
+      console.log("Delete cancelled");
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -85,7 +98,7 @@ const App = () => {
         newNumber={newNumber}
       />
       <h2>Numbers</h2>
-      <Persons filteredPersons={filteredPersons} />
+      <Persons filteredPersons={filteredPersons} deleteHandler={handleDelete} />
     </div>
   );
 };
