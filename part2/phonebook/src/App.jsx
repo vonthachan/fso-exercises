@@ -79,9 +79,18 @@ const App = () => {
     const confirmDelete = window.confirm("Do you want to delete?");
     console.log(id);
     if (confirmDelete) {
-      personService.remove(id).then(() => setPersons(previousPersons))
-    } else {
-      console.log("Delete cancelled");
+      personService
+        .remove(id)
+        .then(() =>
+          setPersons((previousPersons) =>
+            previousPersons.filter((person) => person.id !== id),
+          ),
+        )
+        .catch((error) => {
+          console.log("Delete request failed", error);
+
+          alert(`${id} not deleted`);
+        });
     }
   };
 
