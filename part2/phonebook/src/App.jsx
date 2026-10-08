@@ -28,19 +28,38 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
     const newPerson = {
-      name: newName,
-      number: newNumber,
+      name: newName.trim(),
+      number: newNumber.trim(),
     };
 
-    if (newName === "") {
+    if (newPerson.name === "") {
       alert("Name required");
       return;
     }
-    const nameExist = persons.some((person) => person.name === newName);
-    if (nameExist) {
-      alert(`${newName} already exists in the phonebook`);
-    } else if (newNumber === "") {
+    if (newPerson.number === "") {
       alert("Number required");
+      return;
+    }
+
+    const existingPerson = persons.find(
+      (person) => person.name === newPerson.name,
+    );
+    if (existingPerson) {
+      const replace = window.confirm(
+        `${newPerson.name} already exists in the phonebook, replace the old number with the new number?`,
+      );
+
+      if (replace) {
+        personService.update(existingPerson.id, newPerson).then((response) => {
+          setPersons((currentPersons) =>
+            currentPersons.map((person) =>
+              person.id === existingPerson.id ? response.data : person,
+            ),
+          );
+          setNewName("");
+          setNewNumber("");
+        });
+      }
     } else {
       personService
         .create(newPerson)
