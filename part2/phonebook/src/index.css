@@ -1,0 +1,22 @@
+/* h1 {
+  color: green;
+  font-style: italic;
+}
+.person {
+  color: gray;
+  padding-top: 3px;
+  font-size: 15px;
+} */
+
+.success {
+  border: green;
+  border-style: solid;
+  background-color: rgb(169, 169, 169);
+  color: green;
+}
+.error {
+  border: red;
+  border-style: solid;
+  background-color: rgb(169, 169, 169);
+  color: red;
+}

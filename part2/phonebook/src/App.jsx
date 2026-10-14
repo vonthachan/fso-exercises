@@ -3,6 +3,8 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personService from "./services/persons";
+import "./index.css";
+import Notification from "./components/Notification";
 
 //Goal add names to phonebook and display
 const App = () => {
@@ -10,6 +12,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setNewFilter] = useState("");
+  const [notification, setNotification] = useState(null);
+  const [notificationType, setNotificationType] = useState(null);
 
   useEffect(() => {
     console.log("effect");
@@ -25,6 +29,15 @@ const App = () => {
     setNewName(event.target.value);
   };
 
+  const showNotification = (message, type) => {
+    setNotification(message);
+    setNotificationType(type);
+
+    setTimeout(() => {
+      (setNotification(null), setNotificationType(null));
+    }, 3000);
+  };
+
   const addPerson = (event) => {
     event.preventDefault();
     const newPerson = {
@@ -33,11 +46,11 @@ const App = () => {
     };
 
     if (newPerson.name === "") {
-      alert("Name required");
+      showNotification(`Name required`, "error");
       return;
     }
     if (newPerson.number === "") {
-      alert("Number required");
+      showNotification(`Number required`, "error");
       return;
     }
 
@@ -56,6 +69,7 @@ const App = () => {
               person.id === existingPerson.id ? response.data : person,
             ),
           );
+          showNotification(`Updated ${newPerson.name}`, "success");
           setNewName("");
           setNewNumber("");
         });
@@ -66,6 +80,7 @@ const App = () => {
         //response is the data the server returns(does whatever to newPerson and returns it with a generated id)
         .then((response) => {
           setPersons((prevPersons) => prevPersons.concat(response.data));
+          showNotification(`Added ${newPerson.name}`, "success");
           setNewName("");
           setNewNumber("");
           console.log(response.data);
@@ -115,9 +130,10 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <Notification message={notification} type={notificationType} />
       <Filter filter={filter} handleFilter={handleFilter} />
-      <h2>add a new</h2>
+      <h1>add a new</h1>
       <PersonForm
         addPerson={addPerson}
         newName={newName}
@@ -125,7 +141,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
         newNumber={newNumber}
       />
-      <h2>Numbers</h2>
+      <h1>Numbers</h1>
       <Persons filteredPersons={filteredPersons} deleteHandler={handleDelete} />
     </div>
   );
