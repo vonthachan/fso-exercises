@@ -34,7 +34,8 @@ const App = () => {
     setNotificationType(type);
 
     setTimeout(() => {
-      (setNotification(null), setNotificationType(null));
+      setNotification(null);
+      setNotificationType(null);
     }, 3000);
   };
 
@@ -63,16 +64,35 @@ const App = () => {
       );
 
       if (replace) {
-        personService.update(existingPerson.id, newPerson).then((response) => {
-          setPersons((currentPersons) =>
-            currentPersons.map((person) =>
-              person.id === existingPerson.id ? response.data : person,
-            ),
-          );
-          showNotification(`Updated ${newPerson.name}`, "success");
-          setNewName("");
-          setNewNumber("");
-        });
+        personService
+          .update(existingPerson.id, newPerson)
+          .then((response) => {
+            setPersons((currentPersons) =>
+              currentPersons.map((person) =>
+                person.id === existingPerson.id ? response.data : person,
+              ),
+            );
+            showNotification(`Updated ${newPerson.name}`, "success");
+            setNewName("");
+            setNewNumber("");
+          })
+          .catch((error) => {
+            console.error("Update failed", error);
+
+            if (error.response?.status === 404) {
+              setPersons((currentPersons) =>
+                currentPersons.filter(
+                  (person) => person.id !== existingPerson.id,
+                ),
+              );
+              showNotification(
+                `Information of ${newPerson.name} has already been removed from the server`,
+                "error",
+              );
+            } else {
+              showNotification(`Could not update ${newPerson.name}`, "error");
+            }
+          });
       }
     } else {
       personService
@@ -84,6 +104,10 @@ const App = () => {
           setNewName("");
           setNewNumber("");
           console.log(response.data);
+        })
+        .catch((error) => {
+          console.error("Create failed", error);
+          showNotification(`Could not add ${newPerson.name}`, "error");
         });
     }
   };
